@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Auction Bidding Website</title>
+    <style>
+        body {
+            text-align: center;
+        }
+        #auction-container {
+            font-size: 48px;
+        }
+        #timer {
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Auction Bidding Website</h1>
+    <div>
+        <label for="base-price">Base Price (in Rupees):</label>
+        <input type="number" step="0.01" id="base-price" value="100.00">
+    </div>
+    <div>
+        <label for="increment">Increment (in Rupees):</label>
+        <input type="number" step="0.01" id="increment" value="10.00">
+    </div>
+    <div id="auction-container">
+        <p id="current-price">Current Price: ₹<span id="price">100.00</span></p>
+        <p id="current-bidder">Current Bidder: None</p>
+    </div>
+    <div id="timer">Time Remaining: <span id="countdown">50</span> seconds</div>
+    <button id="bid-button-saravanan">Saravanan</button>
+    <button id="bid-button-akhil">Akhil</button>
+    <button id="bid-button-bharath">Bharath</button>
+    <button id="bid-button-sathish">Sathish</button>
+
+    <script>
+        let price = 100.00;
+        let increment = 10.00;
+        let countdown = 50;
+        let currentBidder = "None";
+        let timerInterval;
+
+        function updatePrice() {
+            price += increment;
+            document.getElementById("price").innerText = price.toFixed(2);
+        }
+
+        function updateTimer() {
+            document.getElementById("countdown").innerText = countdown;
+        }
+
+        function resetTimer() {
+            countdown = 50;
+            updateTimer();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                countdown--;
+                updateTimer();
+                if (countdown === 0) {
+                    clearInterval(timerInterval);
+                    alert("Auction has ended!");
+                    disableBidButtons();
+                }
+            }, 1000);
+        }
+
+        function disableBidButtons() {
+            document.getElementById("bid-button-saravanan").disabled = true;
+            document.getElementById("bid-button-akhil").disabled = true;
+            document.getElementById("bid-button-bharath").disabled = true;
+            document.getElementById("bid-button-sathish").disabled = true;
+        }
+
+        function enableBidButtons() {
+            document.getElementById("bid-button-saravanan").disabled = false;
+            document.getElementById("bid-button-akhil").disabled = false;
+            document.getElementById("bid-button-bharath").disabled = false;
+            document.getElementById("bid-button-sathish").disabled = false;
+        }
+
+        function setCurrentBidder(bidderName) {
+            currentBidder = bidderName;
+            document.getElementById("current-bidder").innerText = "Current Bidder: " + currentBidder;
+        }
+
+        document.getElementById("bid-button-saravanan").addEventListener("click", function() {
+            updatePrice();
+            resetTimer();
+            setCurrentBidder("Saravanan");
+        });
+
+        document.getElementById("bid-button-akhil").addEventListener("click", function() {
+            updatePrice();
+            resetTimer();
+            setCurrentBidder("Akhil");
+        });
+
+        document.getElementById("bid-button-bharath").addEventListener("click", function() {
+            updatePrice();
+            resetTimer();
+            setCurrentBidder("Bharath");
+        });
+
+        document.getElementById("bid-button-sathish").addEventListener("click", function() {
+            updatePrice();
+            resetTimer();
+            setCurrentBidder("Sathish");
+        });
+
+        document.getElementById("base-price").addEventListener("input", function() {
+            price = parseFloat(this.value);
+            document.getElementById("price").innerText = price.toFixed(2);
+        });
+
+        document.getElementById("increment").addEventListener("input", function() {
+            increment = parseFloat(this.value);
+        });
+
+        startTimer();
+    </script>
+</body>
+</html>
